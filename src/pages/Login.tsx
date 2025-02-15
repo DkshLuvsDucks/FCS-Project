@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
 import DarkModeToggle from "../components/DarkModeToggle";
 import InputField from "../components/InputField";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+const Login: React.FC = () => {
+  const navigate = useNavigate();
+  
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault(); // Prevent default form submission
+    navigate("/home"); // Redirect to home page
+  };
+
+  const handleSignUp = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault(); // Prevent page reload
+    navigate("/register"); // Redirect to register page
+  };
+
+  const [darkMode, setDarkMode] = useState<boolean>(true);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
@@ -21,7 +34,7 @@ const Login = () => {
           </p>
         </div>
 
-        <form className="mt-6">
+        <form className="mt-6" onSubmit={handleLogin}>
           {/* Email Input */}
           <InputField
             label="Email / Mobile Number"
@@ -33,7 +46,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* Password Input using InputField */}
+          {/* Password Input */}
           <InputField
             label="Password"
             type="password"
@@ -63,14 +76,18 @@ const Login = () => {
           </div>
 
           {/* Don't have an account? Sign up */}
-            <div className="text-center">
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} text-sm`}>
-                    Don't have an account?{" "}
-                    <a href="/register" className="text-blue-500 hover:text-blue-600 font-medium">
-                    Sign up
-                    </a>
-                </p>
-            </div>
+          <div className="text-center">
+            <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} text-sm`}>
+              Don't have an account?{" "}
+              <a 
+                href="/register" 
+                onClick={handleSignUp}
+                className="text-blue-500 hover:text-blue-600 font-medium"
+              >
+                Sign up
+              </a>
+            </p>
+          </div>
 
           {/* Divider */}
           <div className={`relative my-6 ${darkMode ? "text-gray-500" : "text-gray-500"}`}>
